@@ -2,25 +2,18 @@ export default class ImageInfo {
   $imageInfo = null;
   data = null;
 
-  constructor({ $target, data }) {
+  constructor({ $target, data, onClose }) {
     const $imageInfo = document.createElement('div');
     $imageInfo.className = 'ImageInfo';
     this.$imageInfo = $imageInfo;
     $target.appendChild($imageInfo);
 
     this.data = data;
+    this.onClose = onClose;
 
     this.addCloseEvent();
 
     this.render();
-  }
-
-  onShow() {
-    this.$imageInfo.classList.remove('fade-out');
-  }
-
-  onClose() {
-    this.$imageInfo.classList.add('fade-out');
   }
 
   setState(nextData) {
@@ -50,9 +43,9 @@ export default class ImageInfo {
         .querySelector('button.close')
         .addEventListener('click', () => this.onClose());
 
-      this.onShow();
+      this.$imageInfo.classList.remove('fade-out');
     } else {
-      this.onClose();
+      this.$imageInfo.classList.add('fade-out');
     }
   }
 
