@@ -4,6 +4,7 @@ import ImageInfo from './ImageInfo.js';
 import SearchNoResult from './SearchNoResult.js';
 import SearchInput from './SearchInput.js';
 import SearchResult from './SearchResult.js';
+import RecentKeywords from './RecentKeywords.js';
 
 export default class App {
   $target = null;
@@ -19,9 +20,12 @@ export default class App {
       onSearch: (keyword) => {
         api.searchCats(keyword).then((data) => {
           this.setState(data);
+          this.recentKeywords.addKeyword(keyword);
         });
       },
     });
+
+    this.recentKeywords = new RecentKeywords($target);
 
     this.searchResult = new SearchResult({
       $target,

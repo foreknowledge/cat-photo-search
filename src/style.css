@@ -9,6 +9,7 @@
 :root {
   --color-bg: white;
   --color-sub-bg: #eee;
+  --color-darker: #ddd;
   --color-text: black;
 }
 
@@ -19,6 +20,7 @@ html {
 .dark {
   --color-bg: black;
   --color-sub-bg: #222;
+  --color-darker: #333;
   --color-text: white;
 }
 
@@ -38,6 +40,14 @@ button {
   color: var(--color-text);
 }
 
+ul {
+  padding: 0;
+}
+
+li {
+  appearance: none;
+}
+
 *,
 *:before,
 *:after {
@@ -51,7 +61,6 @@ button {
 }
 
 .SearchResult {
-  padding: 0;
   position: relative;
   margin-top: 10px;
   display: grid;
@@ -90,6 +99,19 @@ button {
   border: none;
   background: var(--color-sub-bg);
   color: var(--color-text);
+}
+
+.RecentKeywords {
+  margin: 1em 0em;
+}
+
+.RecentKeywords .keyword {
+  display: inline;
+  margin: 0.5em;
+  padding: 0.1rem 1rem;
+  font-size: larger;
+  background-color: var(--color-darker);
+  border-radius: 9999px;
 }
 
 .ImageInfo {
