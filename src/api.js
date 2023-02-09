@@ -13,10 +13,21 @@ const request = async (url) => {
       return data.data;
     }
 
-    throw new Error(response);
+    throw response;
   } catch (e) {
     console.warn(e);
-    alert(e);
+    let errMsg;
+    switch (e.status / 100) {
+      case 3:
+        errMsg = `Redirects Error with status code ${e.status}`;
+      case 4:
+        errMsg = `Client Error with status code ${e.status}`;
+      case 5:
+        errMsg = `Server Error with status code ${e.status}`;
+      default:
+        errMsg = `Unknown Error with status code ${e.status}`;
+    }
+    alert(errMsg);
   } finally {
     hideLoadingSpinner();
   }
