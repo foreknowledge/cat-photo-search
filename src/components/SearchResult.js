@@ -14,6 +14,20 @@ export default class SearchResult {
     this.onClick = onClick;
 
     this.render();
+
+    this.$searchResult.addEventListener('click', (e) => {
+      const $searchItem = e.target.closest('.item');
+      const { index } = $searchItem.dataset;
+      const item = this.data[index];
+
+      api.fetchCatDetails(item.id).then((data) => {
+        this.onClick({
+          ...item,
+          origin: data.origin,
+          temperament: data.temperament,
+        });
+      });
+    });
   }
 
   setState(nextData) {
@@ -31,19 +45,5 @@ export default class SearchResult {
         `
       )
       .join('');
-
-    this.$searchResult.addEventListener('click', (e) => {
-      const $searchItem = e.target.closest('.item');
-      const { index } = $searchItem.dataset;
-      const item = this.data[index];
-
-      api.fetchCatDetails(item.id).then((data) => {
-        this.onClick({
-          ...item,
-          origin: data.origin,
-          temperament: data.temperament,
-        });
-      });
-    });
   }
 }
