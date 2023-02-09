@@ -5,6 +5,7 @@ import SearchNoResult from './SearchNoResult.js';
 import SearchInput from './SearchInput.js';
 import SearchResult from './SearchResult.js';
 import RecentKeywords from './RecentKeywords.js';
+import { loadLocalStorage, saveLocalStorage } from '../utils/localStorage.js';
 
 export default class App {
   $target = null;
@@ -16,6 +17,11 @@ export default class App {
 
   constructor($target) {
     this.$target = $target;
+
+    const savedState = loadLocalStorage(KEY_APP_STATE);
+    if (savedState) {
+      this.state = JSON.parse(savedState);
+    }
 
     this.darkMode = new DarkMode($target);
 
@@ -29,6 +35,7 @@ export default class App {
 
     this.searchInput = new SearchInput({
       $target,
+      keyword: this.state.keyword,
       onSearch: onSearch,
     });
 
@@ -70,7 +77,12 @@ export default class App {
 
   setState(nextState) {
     this.state = nextState;
+    this.searchInput.setState(nextState.keyword);
     this.searchResult.setState(nextState.data);
     this.searchNoResult.setState(nextState);
+
+    saveLocalStorage(KEY_APP_STATE, JSON.stringify(this.state));
   }
 }
+
+const KEY_APP_STATE = 'app_state';

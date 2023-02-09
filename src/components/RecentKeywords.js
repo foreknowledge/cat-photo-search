@@ -1,4 +1,4 @@
-import { loadKeywords, saveKeywords } from '../utils/localStorage.js';
+import { loadLocalStorage, saveLocalStorage } from '../utils/localStorage.js';
 
 export default class RecentKeywords {
   keywords = [];
@@ -9,7 +9,7 @@ export default class RecentKeywords {
     this.$recentKeywords = $recentKeywords;
     $target.appendChild($recentKeywords);
 
-    const keywords = loadKeywords();
+    const keywords = loadLocalStorage(KEY_KEYWORDS);
     if (keywords) {
       this.keywords = keywords.split(',');
     }
@@ -29,7 +29,7 @@ export default class RecentKeywords {
     if (this.keywords.length > 5) {
       this.keywords.shift();
     }
-    saveKeywords(this.keywords.join(','));
+    saveLocalStorage(KEY_KEYWORDS, this.keywords.join(','));
     this.render();
   }
 
@@ -40,3 +40,5 @@ export default class RecentKeywords {
       .join('');
   }
 }
+
+const KEY_KEYWORDS = 'keywords';

@@ -1,9 +1,7 @@
-const LOCAL_STORAGE_KEYWORDS = 'keywords';
-
-export function saveKeywords(keywords) {
-  localStorage.setItem(LOCAL_STORAGE_KEYWORDS, keywords);
+export function saveLocalStorage(key, keywords) {
+  localStorage.setItem(key, keywords);
 }
 
-export function loadKeywords() {
-  return localStorage.getItem(LOCAL_STORAGE_KEYWORDS);
+export function loadLocalStorage(key) {
+  return localStorage.getItem(key);
 }
