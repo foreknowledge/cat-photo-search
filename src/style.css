@@ -127,7 +127,7 @@ button {
 
 .Loading {
   display: none;
-  position: absolute;
+  position: fixed;
   top: 50%;
   left: 50%;
   border: 16px solid #f3f3f3; /* Light grey */
