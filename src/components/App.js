@@ -1,6 +1,7 @@
 import api from '../api.js';
 import DarkMode from './DarkMode.js';
 import ImageInfo from './ImageInfo.js';
+import SearchNoResult from './SearchNoResult.js';
 import SearchInput from './SearchInput.js';
 import SearchResult from './SearchResult.js';
 
@@ -33,6 +34,11 @@ export default class App {
       },
     });
 
+    this.searchNoResult = new SearchNoResult({
+      $target,
+      initialData: this.data,
+    });
+
     this.imageInfo = new ImageInfo({
       $target,
       data: {
@@ -51,5 +57,6 @@ export default class App {
   setState(nextData) {
     this.data = nextData;
     this.searchResult.setState(nextData);
+    this.searchNoResult.setState(nextData);
   }
 }
