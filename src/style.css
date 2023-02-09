@@ -14,6 +14,11 @@ body * {
   font-family: Goyang;
 }
 
+button {
+  background: none;
+  border: none;
+}
+
 *,
 *:before,
 *:after {
