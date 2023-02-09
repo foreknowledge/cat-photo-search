@@ -10,7 +10,17 @@ class ImageInfo {
 
     this.data = data;
 
+    this.addCloseEvent();
+
     this.render();
+  }
+
+  onShow() {
+    this.$imageInfo.style.display = 'block';
+  }
+
+  onClose() {
+    this.$imageInfo.style.display = 'none';
   }
 
   setState(nextData) {
@@ -34,9 +44,31 @@ class ImageInfo {
             <div>태생: ${origin}</div>
           </footer>
         </article>`;
-      this.$imageInfo.style.display = 'block';
+
+      // x 버튼 클릭
+      document
+        .querySelector('button.close')
+        .addEventListener('click', () => this.onClose());
+
+      this.onShow();
     } else {
-      this.$imageInfo.style.display = 'none';
+      this.onClose();
     }
+  }
+
+  addCloseEvent() {
+    // 모달 외부 영역 클릭
+    this.$imageInfo.addEventListener('click', (e) => {
+      if (e.target.className === 'ImageInfo') {
+        this.onClose();
+      }
+    });
+
+    // ESC 키 입력
+    document.addEventListener('keyup', (e) => {
+      if (e.key === 'Escape') {
+        this.onClose();
+      }
+    });
   }
 }
