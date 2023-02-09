@@ -1,3 +1,5 @@
+import api from '../api.js';
+
 export default class SearchResult {
   $searchResult = null;
   data = null;
@@ -33,7 +35,15 @@ export default class SearchResult {
     this.$searchResult.addEventListener('click', (e) => {
       const $searchItem = e.target.closest('.item');
       const { index } = $searchItem.dataset;
-      this.onClick(this.data[index]);
+      const item = this.data[index];
+
+      api.fetchCatDetails(item.id).then((data) => {
+        this.onClick({
+          ...item,
+          origin: data.origin,
+          temperament: data.temperament,
+        });
+      });
     });
   }
 }
