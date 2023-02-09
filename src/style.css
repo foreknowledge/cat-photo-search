@@ -51,6 +51,7 @@ button {
 }
 
 .SearchResult {
+  padding: 0;
   position: relative;
   margin-top: 10px;
   display: grid;
