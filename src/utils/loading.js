@@ -1,7 +1,7 @@
-function showLoadingSpinner() {
+export function showLoadingSpinner() {
   document.querySelector('.Loading').style.display = 'block';
 }
 
-function hideLoadingSpinner() {
+export function hideLoadingSpinner() {
   document.querySelector('.Loading').style.display = 'none';
 }

@@ -1,4 +1,4 @@
-class DarkMode {
+export default class DarkMode {
   constructor($target) {
     const $darkMode = document.createElement('div');
     $darkMode.className = 'DarkMode';

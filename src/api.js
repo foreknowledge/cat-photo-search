@@ -1,3 +1,5 @@
+import { showLoadingSpinner, hideLoadingSpinner } from './utils/loading.js';
+
 const API_ENDPOINT =
   'https://q9d70f82kd.execute-api.ap-northeast-2.amazonaws.com/dev';
 
@@ -14,7 +16,7 @@ const request = async (url) => {
     throw new Error(response);
   } catch (e) {
     console.warn(e);
-    alert(e.messages);
+    alert(e);
   } finally {
     hideLoadingSpinner();
   }
@@ -31,3 +33,4 @@ const api = {
     return request(`${API_ENDPOINT}/api/cats/${id}`);
   },
 };
+export default api;

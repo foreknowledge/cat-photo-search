@@ -1,6 +1,10 @@
-console.log('app is running!');
+import api from '../api.js';
+import DarkMode from './DarkMode.js';
+import ImageInfo from './ImageInfo.js';
+import SearchInput from './SearchInput.js';
+import SearchResult from './SearchResult.js';
 
-class App {
+export default class App {
   $target = null;
   data = [];
 
