@@ -24,16 +24,18 @@ class SearchResult {
       .map(
         (cat) => `
           <li class="item">
-            <img src=${cat.url} alt=${cat.name} />
+            <img class="cat_img" data-id=${cat.id} src=${cat.url} alt=${cat.name} />
           </li>
         `
       )
       .join('');
 
-    this.$searchResult.querySelectorAll('.item').forEach(($item, index) => {
-      $item.addEventListener('click', () => {
-        this.onClick(this.data[index]);
-      });
+    this.$searchResult.addEventListener('click', (e) => {
+      if (e.target.className === 'cat_img') {
+        const targetId = e.target.dataset.id;
+        const data = this.data.find((item) => item.id === targetId);
+        this.onClick(data);
+      }
     });
   }
 }
