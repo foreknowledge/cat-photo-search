@@ -12,7 +12,7 @@ class App {
     this.searchInput = new SearchInput({
       $target,
       onSearch: (keyword) => {
-        api.fetchCats(keyword).then(({ data }) => {
+        api.searchCats(keyword).then((data) => {
           this.setState(data);
         });
       },
