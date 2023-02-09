@@ -22,20 +22,18 @@ class SearchResult {
   render() {
     this.$searchResult.innerHTML = this.data
       .map(
-        (cat) => `
-          <li class="item">
-            <img class="cat_img" data-id=${cat.id} src=${cat.url} alt=${cat.name} />
+        (cat, index) => `
+          <li class="item" data-index=${index}>
+            <img src=${cat.url} alt=${cat.name} />
           </li>
         `
       )
       .join('');
 
     this.$searchResult.addEventListener('click', (e) => {
-      if (e.target.className === 'cat_img') {
-        const targetId = e.target.dataset.id;
-        const data = this.data.find((item) => item.id === targetId);
-        this.onClick(data);
-      }
+      const $searchItem = e.target.closest('.item');
+      const { index } = $searchItem.dataset;
+      this.onClick(this.data[index]);
     });
   }
 }
