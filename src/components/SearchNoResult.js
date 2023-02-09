@@ -1,24 +1,26 @@
 export default class SearchNoResult {
-  data = null;
+  state = null;
 
-  constructor({ $target, initialData }) {
+  constructor({ $target, initialState }) {
     const $searchNoResult = document.createElement('div');
     $searchNoResult.className = 'SearchNoResult';
     $searchNoResult.innerHTML = '검색 결과가 없습니다.';
     this.$searchNoResult = $searchNoResult;
     $target.appendChild($searchNoResult);
 
-    this.data = initialData;
+    this.state = initialState;
 
     this.render();
   }
 
-  setState(nextData) {
-    this.data = nextData;
+  setState(nextState) {
+    this.state = nextState;
     this.render();
   }
 
   render() {
-    this.$searchNoResult.style.display = !this.data.length ? 'block' : 'none';
+    const { data, keyword, isLoading } = this.state;
+    this.$searchNoResult.style.display =
+      keyword && !isLoading && !data.length ? 'block' : 'none';
   }
 }

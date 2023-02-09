@@ -8,7 +8,11 @@ import RecentKeywords from './RecentKeywords.js';
 
 export default class App {
   $target = null;
-  data = [];
+  state = {
+    data: [],
+    keyword: '',
+    isLoading: false,
+  };
 
   constructor($target) {
     this.$target = $target;
@@ -16,8 +20,9 @@ export default class App {
     this.darkMode = new DarkMode($target);
 
     const onSearch = (keyword) => {
+      this.setState({ ...this.state, keyword, isLoading: true });
       api.searchCats(keyword).then((data) => {
-        this.setState(data);
+        this.setState({ ...this.state, data, isLoading: false });
         this.recentKeywords.addKeyword(keyword);
       });
     };
@@ -34,7 +39,7 @@ export default class App {
 
     this.searchResult = new SearchResult({
       $target,
-      initialData: this.data,
+      initialData: this.state.data,
       onClick: (image) => {
         this.imageInfo.setState({
           visible: true,
@@ -45,7 +50,7 @@ export default class App {
 
     this.searchNoResult = new SearchNoResult({
       $target,
-      initialData: this.data,
+      initialState: this.state,
     });
 
     this.imageInfo = new ImageInfo({
@@ -63,9 +68,9 @@ export default class App {
     });
   }
 
-  setState(nextData) {
-    this.data = nextData;
-    this.searchResult.setState(nextData);
-    this.searchNoResult.setState(nextData);
+  setState(nextState) {
+    this.state = nextState;
+    this.searchResult.setState(nextState.data);
+    this.searchNoResult.setState(nextState);
   }
 }
