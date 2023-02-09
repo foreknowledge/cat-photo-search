@@ -16,11 +16,11 @@ class ImageInfo {
   }
 
   onShow() {
-    this.$imageInfo.style.display = 'block';
+    this.$imageInfo.classList.remove('fade-out');
   }
 
   onClose() {
-    this.$imageInfo.style.display = 'none';
+    this.$imageInfo.classList.add('fade-out');
   }
 
   setState(nextData) {

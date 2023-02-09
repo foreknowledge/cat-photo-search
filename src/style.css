@@ -92,6 +92,12 @@ button {
   width: 100vw;
   height: 100vh;
   background-color: rgba(0, 0, 0, 0.5);
+  animation: fade-in 300ms;
+}
+
+.ImageInfo.fade-out {
+  animation: fade-out 300ms;
+  animation-fill-mode: forwards;
 }
 
 .ImageInfo .title {
@@ -138,5 +144,27 @@ button {
 @media only screen and (max-width: 576px) {
   .SearchResult {
     grid-template-columns: repeat(1, minmax(250px, 1fr));
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+    display: block;
+    visibility: visible;
+  }
+}
+
+@keyframes fade-out {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+    display: none;
+    visibility: hidden;
   }
 }
