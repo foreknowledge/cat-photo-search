@@ -17,9 +17,10 @@ export default class SearchResult {
 
     this.$searchResult.addEventListener('click', (e) => {
       const $searchItem = e.target.closest('.item');
+      if (!$searchItem) return;
+
       const { index } = $searchItem.dataset;
       const item = this.data[index];
-
       api.fetchCatDetails(item.id).then((data) => {
         this.onClick({
           ...item,

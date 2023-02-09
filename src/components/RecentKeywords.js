@@ -3,8 +3,8 @@ import { loadKeywords, saveKeywords } from '../utils/localStorage.js';
 export default class RecentKeywords {
   keywords = [];
 
-  constructor($target) {
-    const $recentKeywords = document.createElement('ul');
+  constructor({ $target, onClickKeyword }) {
+    const $recentKeywords = document.createElement('section');
     $recentKeywords.className = 'RecentKeywords';
     this.$recentKeywords = $recentKeywords;
     $target.appendChild($recentKeywords);
@@ -15,6 +15,13 @@ export default class RecentKeywords {
     }
 
     this.render();
+
+    $recentKeywords.addEventListener('click', (e) => {
+      const $keywordItem = e.target.closest('.keyword');
+      if ($keywordItem) {
+        onClickKeyword($keywordItem.innerText);
+      }
+    });
   }
 
   addKeyword(keyword) {
@@ -29,7 +36,7 @@ export default class RecentKeywords {
   render() {
     this.$recentKeywords.innerHTML = [...this.keywords]
       .reverse()
-      .map((keyword) => `<li class='keyword'>${keyword}</li>`)
+      .map((keyword) => `<button class='keyword'>${keyword}</button>`)
       .join('');
   }
 }

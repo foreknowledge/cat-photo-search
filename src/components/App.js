@@ -15,17 +15,22 @@ export default class App {
 
     this.darkMode = new DarkMode($target);
 
+    const onSearch = (keyword) => {
+      api.searchCats(keyword).then((data) => {
+        this.setState(data);
+        this.recentKeywords.addKeyword(keyword);
+      });
+    };
+
     this.searchInput = new SearchInput({
       $target,
-      onSearch: (keyword) => {
-        api.searchCats(keyword).then((data) => {
-          this.setState(data);
-          this.recentKeywords.addKeyword(keyword);
-        });
-      },
+      onSearch: onSearch,
     });
 
-    this.recentKeywords = new RecentKeywords($target);
+    this.recentKeywords = new RecentKeywords({
+      $target,
+      onClickKeyword: onSearch,
+    });
 
     this.searchResult = new SearchResult({
       $target,
