@@ -1,5 +1,5 @@
 export default class SearchNoResult {
-  state = null;
+  noResult = null;
 
   constructor({ $target, initialState }) {
     const $searchNoResult = document.createElement('div');
@@ -8,19 +8,17 @@ export default class SearchNoResult {
     this.$searchNoResult = $searchNoResult;
     $target.appendChild($searchNoResult);
 
-    this.state = initialState;
+    this.noResult = initialState;
 
     this.render();
   }
 
-  setState(nextState) {
-    this.state = nextState;
+  setState(noResult) {
+    this.noResult = noResult;
     this.render();
   }
 
   render() {
-    const { data, keyword, isLoading } = this.state;
-    this.$searchNoResult.style.display =
-      keyword && !isLoading && !data.length ? 'block' : 'none';
+    this.$searchNoResult.style.display = this.noResult ? 'block' : 'none';
   }
 }

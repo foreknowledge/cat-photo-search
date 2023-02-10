@@ -72,7 +72,7 @@ export default class App {
 
     this.searchNoResult = new SearchNoResult({
       $target,
-      initialState: this.state,
+      initialState: false,
     });
 
     this.imageInfo = new ImageInfo({
@@ -94,10 +94,11 @@ export default class App {
 
   setState(nextState) {
     this.state = nextState;
-    this.searchWrapper.setState(nextState.keyword);
-    this.searchResult.setState(nextState.data);
-    this.searchNoResult.setState(nextState);
-    this.loading.setState(nextState.isLoading);
+    const { data, keyword, isLoading } = nextState;
+    this.searchWrapper.setState(keyword);
+    this.searchResult.setState(data);
+    this.searchNoResult.setState(keyword && !isLoading && !data.length);
+    this.loading.setState(isLoading);
 
     saveLocalStorage(KEY_APP_STATE, JSON.stringify(this.state));
   }
