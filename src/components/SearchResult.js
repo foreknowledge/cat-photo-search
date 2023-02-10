@@ -1,11 +1,12 @@
 import lazyLoading from '../utils/LazyLoading.js';
+import infiniteScroll from '../utils/infiniteScroll.js';
 import SearchNoResult from './SearchNoResult.js';
 
 export default class SearchResult {
   $searchResult = null;
   onClick = null;
 
-  constructor({ $target, initialState, onClick }) {
+  constructor({ $target, initialState, fetchNextData, onClick }) {
     this.$searchResult = document.createElement('ul');
     this.$searchResult.className = 'SearchResult';
     $target.appendChild(this.$searchResult);
@@ -27,6 +28,21 @@ export default class SearchResult {
       const { index } = $searchItem.dataset;
       this.onClick(this.state.data[index]);
     });
+
+    infiniteScroll(async () => {
+      const { data } = this.state;
+      const nextData = await fetchNextData();
+      if (!nextData) return;
+
+      // 새로 들어온 데이터 결과 목록에 추가
+      this.$searchResult.innerHTML += this.createCatCards(
+        nextData,
+        data.length
+      );
+      this.state.data = [...data, ...nextData];
+
+      lazyLoading();
+    });
   }
 
   setState(nextState) {
@@ -41,16 +57,20 @@ export default class SearchResult {
 
   render() {
     const { data } = this.state;
-    this.$searchResult.innerHTML = data
+    this.$searchResult.innerHTML = this.createCatCards(data, 0);
+
+    lazyLoading();
+  }
+
+  createCatCards(data, startOffset) {
+    return data
       .map(
-        (cat, index) => `
-          <li class="item" title="${cat.name}" data-index=${index}>
+        (cat, i) => `
+          <li class="item" title="${cat.name}" data-index=${startOffset + i}>
             <img class="lazy" data-src="${cat.url}" alt="${cat.name}" />
           </li>
         `
       )
       .join('');
-
-    lazyLoading();
   }
 }

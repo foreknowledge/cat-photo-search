@@ -50,6 +50,12 @@ export default class App {
     this.searchResult = new SearchResult({
       $target,
       initialState: this.state,
+      fetchNextData: async () => {
+        this.showLoading();
+        const data = await api.fetchRandomCats();
+        this.hideLoading();
+        return data;
+      },
       onClick: async (image) => {
         this.showLoading();
         const data = await api.fetchCatDetails(image.id);
