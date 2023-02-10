@@ -4,7 +4,10 @@ import ImageInfo from './ImageInfo.js';
 import SearchNoResult from './SearchNoResult.js';
 import SearchResult from './SearchResult.js';
 import RecentKeywords from './RecentKeywords.js';
-import { loadLocalStorage, saveLocalStorage } from '../utils/localStorage.js';
+import {
+  loadSessionStorage,
+  saveSessionStorage,
+} from '../utils/sessionStorage.js';
 import SearchWrapper from './SearchWrapper.js';
 import Loading from './Loading.js';
 
@@ -19,7 +22,7 @@ export default class App {
   constructor($target) {
     this.$target = $target;
 
-    const savedState = loadLocalStorage(KEY_APP_STATE);
+    const savedState = loadSessionStorage(KEY_APP_STATE);
     if (savedState) {
       this.state = JSON.parse(savedState);
     }
@@ -100,7 +103,7 @@ export default class App {
     this.searchNoResult.setState(keyword && !isLoading && !data.length);
     this.loading.setState(isLoading);
 
-    saveLocalStorage(KEY_APP_STATE, JSON.stringify(this.state));
+    saveSessionStorage(KEY_APP_STATE, JSON.stringify(this.state));
   }
 }
 
