@@ -20,18 +20,13 @@ export default class SearchResult {
       if (!$searchItem) return;
 
       const { index } = $searchItem.dataset;
-      const item = this.data[index];
-      api.fetchCatDetails(item.id).then((data) => {
-        this.onClick({
-          ...item,
-          origin: data.origin,
-          temperament: data.temperament,
-        });
-      });
+      this.onClick(this.data[index]);
     });
   }
 
   setState(nextData) {
+    if (this.data === nextData) return;
+
     this.data = nextData;
     this.render();
   }

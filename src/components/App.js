@@ -6,6 +6,7 @@ import SearchResult from './SearchResult.js';
 import RecentKeywords from './RecentKeywords.js';
 import { loadLocalStorage, saveLocalStorage } from '../utils/localStorage.js';
 import SearchWrapper from './SearchWrapper.js';
+import Loading from './Loading.js';
 
 export default class App {
   $target = null;
@@ -54,9 +55,17 @@ export default class App {
       $target,
       initialData: this.state.data,
       onClick: (image) => {
-        this.imageInfo.setState({
-          visible: true,
-          image,
+        this.setState({ ...this.state, isLoading: true });
+        api.fetchCatDetails(image.id).then((data) => {
+          this.setState({ ...this.state, isLoading: false });
+          this.imageInfo.setState({
+            visible: true,
+            image: {
+              ...image,
+              origin: data.origin,
+              temperament: data.temperament,
+            },
+          });
         });
       },
     });
@@ -79,6 +88,8 @@ export default class App {
         });
       },
     });
+
+    this.loading = new Loading($target);
   }
 
   setState(nextState) {
@@ -86,6 +97,7 @@ export default class App {
     this.searchWrapper.setState(nextState.keyword);
     this.searchResult.setState(nextState.data);
     this.searchNoResult.setState(nextState);
+    this.loading.setState(nextState.isLoading);
 
     saveLocalStorage(KEY_APP_STATE, JSON.stringify(this.state));
   }

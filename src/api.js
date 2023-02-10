@@ -1,10 +1,7 @@
-import { showLoadingSpinner, hideLoadingSpinner } from './utils/loading.js';
-
 const API_ENDPOINT =
   'https://q9d70f82kd.execute-api.ap-northeast-2.amazonaws.com/dev';
 
 const request = async (url) => {
-  showLoadingSpinner();
   try {
     const response = await fetch(url);
 
@@ -28,8 +25,6 @@ const request = async (url) => {
         errMsg = `Unknown Error with status code ${e.status}`;
     }
     alert(errMsg);
-  } finally {
-    hideLoadingSpinner();
   }
 };
 
