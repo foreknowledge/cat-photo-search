@@ -2,10 +2,10 @@ import api from '../api.js';
 import DarkMode from './DarkMode.js';
 import ImageInfo from './ImageInfo.js';
 import SearchNoResult from './SearchNoResult.js';
-import SearchInput from './SearchInput.js';
 import SearchResult from './SearchResult.js';
 import RecentKeywords from './RecentKeywords.js';
 import { loadLocalStorage, saveLocalStorage } from '../utils/localStorage.js';
+import SearchWrapper from './SearchWrapper.js';
 
 export default class App {
   $target = null;
@@ -33,10 +33,16 @@ export default class App {
       });
     };
 
-    this.searchInput = new SearchInput({
+    this.searchWrapper = new SearchWrapper({
       $target,
       keyword: this.state.keyword,
       onSearch: onSearch,
+      onRandom: () => {
+        this.setState({ ...this.state, keyword: '', isLoading: true });
+        api.fetchRandomCats().then((data) => {
+          this.setState({ ...this.state, data, isLoading: false });
+        });
+      },
     });
 
     this.recentKeywords = new RecentKeywords({
@@ -77,7 +83,7 @@ export default class App {
 
   setState(nextState) {
     this.state = nextState;
-    this.searchInput.setState(nextState.keyword);
+    this.searchWrapper.setState(nextState.keyword);
     this.searchResult.setState(nextState.data);
     this.searchNoResult.setState(nextState);
 

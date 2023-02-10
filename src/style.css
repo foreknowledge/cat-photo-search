@@ -38,6 +38,7 @@ button {
   background: none;
   border: none;
   color: var(--color-text);
+  cursor: pointer;
 }
 
 ul {
@@ -92,13 +93,23 @@ li {
   margin-bottom: 0.5rem;
 }
 
+.InputWrapper {
+  display: flex;
+  align-items: center;
+}
+
 .SearchInput {
   width: 100%;
-  font-size: 40px;
+  font-size: xx-large;
   padding: 10px 15px;
   border: none;
   background: var(--color-sub-bg);
   color: var(--color-text);
+}
+
+.RandomButton {
+  font-size: xx-large;
+  padding: 10px 15px;
 }
 
 .RecentKeywords {
