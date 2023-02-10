@@ -1,7 +1,4 @@
-import {
-  loadSessionStorage,
-  saveSessionStorage,
-} from '../utils/sessionStorage.js';
+import { getItem, setItem } from '../utils/sessionStorage.js';
 
 export default class RecentKeywords {
   keywords = [];
@@ -12,7 +9,7 @@ export default class RecentKeywords {
     this.$recentKeywords = $recentKeywords;
     $target.appendChild($recentKeywords);
 
-    const keywords = loadSessionStorage(KEY_KEYWORDS);
+    const keywords = getItem(KEY_KEYWORDS);
     if (keywords) {
       this.keywords = keywords.split(',');
     }
@@ -33,7 +30,7 @@ export default class RecentKeywords {
     if (this.keywords.length > 5) {
       this.keywords.shift();
     }
-    saveSessionStorage(KEY_KEYWORDS, this.keywords.join(','));
+    setItem(KEY_KEYWORDS, this.keywords.join(','));
     this.render();
   }
 

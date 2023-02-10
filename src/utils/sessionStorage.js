@@ -1,7 +1,7 @@
-export function saveSessionStorage(key, keywords) {
-  sessionStorage.setItem(key, keywords);
+export function setItem(key, value) {
+  sessionStorage.setItem(key, value);
 }
 
-export function loadSessionStorage(key) {
+export function getItem(key) {
   return sessionStorage.getItem(key);
 }
