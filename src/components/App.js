@@ -13,7 +13,6 @@ export default class App {
   state = {
     data: [],
     keyword: '',
-    isLoading: false,
   };
 
   constructor($target) {
@@ -26,23 +25,27 @@ export default class App {
 
     this.darkMode = new DarkMode($target);
 
-    const onSearch = (keyword) => {
-      this.setState({ ...this.state, keyword, isLoading: true });
-      api.searchCats(keyword).then((data) => {
-        this.setState({ ...this.state, data, isLoading: false });
-        this.recentKeywords.addKeyword(keyword);
-      });
+    const onSearch = async (keyword) => {
+      this.showLoading();
+      const data = await api.searchCats(keyword);
+      this.hideLoading();
+
+      if (!data) return;
+      this.setState({ data, keyword });
+      this.recentKeywords.addKeyword(keyword);
     };
 
     this.searchWrapper = new SearchWrapper({
       $target,
       keyword: this.state.keyword,
       onSearch: onSearch,
-      onRandom: () => {
-        this.setState({ ...this.state, keyword: '', isLoading: true });
-        api.fetchRandomCats().then((data) => {
-          this.setState({ ...this.state, data, isLoading: false });
-        });
+      onRandom: async () => {
+        this.showLoading();
+        const data = await api.fetchRandomCats();
+        this.hideLoading();
+
+        if (!data) return;
+        this.setState({ data, keyword: '' });
       },
     });
 
@@ -54,18 +57,19 @@ export default class App {
     this.searchResult = new SearchResult({
       $target,
       initialData: this.state.data,
-      onClick: (image) => {
-        this.setState({ ...this.state, isLoading: true });
-        api.fetchCatDetails(image.id).then((data) => {
-          this.setState({ ...this.state, isLoading: false });
-          this.imageInfo.setState({
-            visible: true,
-            image: {
-              ...image,
-              origin: data.origin,
-              temperament: data.temperament,
-            },
-          });
+      onClick: async (image) => {
+        this.showLoading();
+        const data = await api.fetchCatDetails(image.id);
+        this.hideLoading();
+
+        if (!data) return;
+        this.imageInfo.setState({
+          visible: true,
+          image: {
+            ...image,
+            origin: data.origin,
+            temperament: data.temperament,
+          },
         });
       },
     });
@@ -94,13 +98,20 @@ export default class App {
 
   setState(nextState) {
     this.state = nextState;
-    const { data, keyword, isLoading } = nextState;
+    const { data, keyword } = nextState;
     this.searchWrapper.setState(keyword);
     this.searchResult.setState(data);
-    this.searchNoResult.setState(keyword && !isLoading && !data.length);
-    this.loading.setState(isLoading);
+    this.searchNoResult.setState(keyword && !data.length);
 
     setItem(KEY_APP_STATE, JSON.stringify(this.state));
+  }
+
+  showLoading() {
+    this.loading.setState(true);
+  }
+
+  hideLoading() {
+    this.loading.setState(false);
   }
 }
 

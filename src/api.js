@@ -25,6 +25,8 @@ const request = async (url) => {
         errMsg = `Unknown Error with status code ${e.status}`;
     }
     alert(errMsg);
+
+    return null;
   }
 };
 
