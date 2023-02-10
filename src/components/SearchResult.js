@@ -1,16 +1,21 @@
 import lazyLoading from '../utils/LazyLoading.js';
+import SearchNoResult from './SearchNoResult.js';
 
 export default class SearchResult {
   $searchResult = null;
-  data = null;
   onClick = null;
 
-  constructor({ $target, initialData, onClick }) {
+  constructor({ $target, initialState, onClick }) {
     this.$searchResult = document.createElement('ul');
     this.$searchResult.className = 'SearchResult';
     $target.appendChild(this.$searchResult);
 
-    this.data = initialData;
+    this.searchNoResult = new SearchNoResult({
+      $target,
+      initialState: false,
+    });
+
+    this.state = initialState;
     this.onClick = onClick;
 
     this.render();
@@ -20,19 +25,23 @@ export default class SearchResult {
       if (!$searchItem) return;
 
       const { index } = $searchItem.dataset;
-      this.onClick(this.data[index]);
+      this.onClick(this.state.data[index]);
     });
   }
 
-  setState(nextData) {
-    if (this.data === nextData) return;
+  setState(nextState) {
+    if (this.state === nextState) return;
 
-    this.data = nextData;
+    this.state = nextState;
     this.render();
+
+    const { keyword, data } = this.state;
+    this.searchNoResult.setState(keyword && !data.length);
   }
 
   render() {
-    this.$searchResult.innerHTML = this.data
+    const { data } = this.state;
+    this.$searchResult.innerHTML = data
       .map(
         (cat, index) => `
           <li class="item" title="${cat.name}" data-index=${index}>

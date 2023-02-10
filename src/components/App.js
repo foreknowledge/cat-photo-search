@@ -1,7 +1,6 @@
 import api from '../api.js';
 import DarkMode from './DarkMode.js';
 import ImageInfo from './ImageInfo.js';
-import SearchNoResult from './SearchNoResult.js';
 import SearchResult from './SearchResult.js';
 import RecentKeywords from './RecentKeywords.js';
 import { getItem, setItem } from '../utils/sessionStorage.js';
@@ -23,22 +22,14 @@ export default class App {
       this.state = JSON.parse(savedState);
     }
 
+    // dark mode
     this.darkMode = new DarkMode($target);
 
-    const onSearch = async (keyword) => {
-      this.showLoading();
-      const data = await api.searchCats(keyword);
-      this.hideLoading();
-
-      if (!data) return;
-      this.setState({ data, keyword });
-      this.recentKeywords.addKeyword(keyword);
-    };
-
+    // search input
     this.searchWrapper = new SearchWrapper({
       $target,
       keyword: this.state.keyword,
-      onSearch: onSearch,
+      onSearch: (keyword) => this.onSearch(keyword),
       onRandom: async () => {
         this.showLoading();
         const data = await api.fetchRandomCats();
@@ -49,14 +40,16 @@ export default class App {
       },
     });
 
+    // recent keywords
     this.recentKeywords = new RecentKeywords({
       $target,
-      onClickKeyword: onSearch,
+      onClickKeyword: (keyword) => this.onSearch(keyword),
     });
 
+    // search result
     this.searchResult = new SearchResult({
       $target,
-      initialData: this.state.data,
+      initialState: this.state,
       onClick: async (image) => {
         this.showLoading();
         const data = await api.fetchCatDetails(image.id);
@@ -74,11 +67,7 @@ export default class App {
       },
     });
 
-    this.searchNoResult = new SearchNoResult({
-      $target,
-      initialState: false,
-    });
-
+    // image info
     this.imageInfo = new ImageInfo({
       $target,
       data: {
@@ -93,17 +82,26 @@ export default class App {
       },
     });
 
+    // loading
     this.loading = new Loading($target);
   }
 
   setState(nextState) {
     this.state = nextState;
-    const { data, keyword } = nextState;
-    this.searchWrapper.setState(keyword);
-    this.searchResult.setState(data);
-    this.searchNoResult.setState(keyword && !data.length);
+    this.searchWrapper.setState(this.state.keyword);
+    this.searchResult.setState(this.state);
 
     setItem(KEY_APP_STATE, JSON.stringify(this.state));
+  }
+
+  async onSearch(keyword) {
+    this.showLoading();
+    const data = await api.searchCats(keyword);
+    this.hideLoading();
+
+    if (!data) return;
+    this.setState({ data, keyword });
+    this.recentKeywords.addKeyword(keyword);
   }
 
   showLoading() {
