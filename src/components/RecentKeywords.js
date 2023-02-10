@@ -28,6 +28,7 @@ export default class RecentKeywords {
   }
 
   addKeyword(keyword) {
+    this.keywords = this.keywords.filter((item) => item !== keyword);
     this.keywords.push(keyword);
     if (this.keywords.length > 5) {
       this.keywords.shift();
