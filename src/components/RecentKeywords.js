@@ -34,10 +34,11 @@ export default class RecentKeywords {
   }
 
   render() {
-    this.$recentKeywords.innerHTML = [...this.keywords]
-      .reverse()
-      .map((keyword) => `<button class='keyword'>${keyword}</button>`)
-      .join('');
+    this.$recentKeywords.innerHTML =
+      '<span>최근 검색어: </span>' +
+      [...this.keywords]
+        .map((keyword) => `<button class='keyword'>${keyword}</button>`)
+        .join('');
   }
 }
 
