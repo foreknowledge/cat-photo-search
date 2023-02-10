@@ -35,8 +35,8 @@ export default class SearchResult {
     this.$searchResult.innerHTML = this.data
       .map(
         (cat, index) => `
-          <li class="item" data-index=${index}>
-            <img class="lazy" data-src=${cat.url} alt=${cat.name} />
+          <li class="item" title="${cat.name}" data-index=${index}>
+            <img class="lazy" data-src="${cat.url}" alt="${cat.name}" />
           </li>
         `
       )
