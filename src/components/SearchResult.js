@@ -1,4 +1,4 @@
-import api from '../api.js';
+import lazyLoading from '../utils/LazyLoading.js';
 
 export default class SearchResult {
   $searchResult = null;
@@ -36,10 +36,12 @@ export default class SearchResult {
       .map(
         (cat, index) => `
           <li class="item" data-index=${index}>
-            <img src=${cat.url} alt=${cat.name} />
+            <img class="lazy" data-src=${cat.url} alt=${cat.name} />
           </li>
         `
       )
       .join('');
+
+    lazyLoading();
   }
 }
