@@ -1,4 +1,5 @@
 export default class ImageBanner {
+  startPos = 0;
   constructor({ $target, fetchRandomCats }) {
     const $imageBanner = document.createElement('section');
     $imageBanner.className = 'ImageBanner';
@@ -6,6 +7,11 @@ export default class ImageBanner {
 
     const $prevButton = document.createElement('button');
     $prevButton.innerText = '❮';
+    $prevButton.addEventListener('click', () => {
+      if (this.startPos === 0) return;
+      this.startPos -= 1;
+      this.render();
+    });
     $imageBanner.appendChild($prevButton);
 
     const $imgList = document.createElement('ul');
@@ -20,6 +26,11 @@ export default class ImageBanner {
 
     const $nextButton = document.createElement('button');
     $nextButton.innerText = '❯';
+    $nextButton.addEventListener('click', () => {
+      if (this.startPos + 5 === this.data.length) return;
+      this.startPos += 1;
+      this.render();
+    });
     $imageBanner.appendChild($nextButton);
 
     (async () => {
@@ -32,7 +43,7 @@ export default class ImageBanner {
 
   render() {
     this.$imgList.innerHTML = this.data
-      .slice(0, 5)
+      .slice(this.startPos, this.startPos + 5)
       .map(
         (cat) =>
           `<li><img src="${cat.url}" alt="${cat.name}" title="${cat.name}" /></li>`
