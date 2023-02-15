@@ -6,6 +6,7 @@ import RecentKeywords from './RecentKeywords.js';
 import { getItem, setItem } from '../utils/sessionStorage.js';
 import SearchWrapper from './SearchWrapper.js';
 import Loading from './Loading.js';
+import ImageBanner from './ImageBanner.js';
 
 export default class App {
   $target = null;
@@ -44,6 +45,12 @@ export default class App {
     this.recentKeywords = new RecentKeywords({
       $target,
       onClickKeyword: (keyword) => this.onSearch(keyword),
+    });
+
+    // image banner
+    this.imageBanner = new ImageBanner({
+      $target,
+      fetchRandomCats: api.fetchRandomCats,
     });
 
     // search result

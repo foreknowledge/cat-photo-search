@@ -61,6 +61,39 @@ li {
   column-gap: 1.5em;
 }
 
+.ImageBanner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  height: 8em;
+  margin: 1em 0;
+  background: var(--color-sub-bg);
+  font-size: larger;
+}
+
+.ImageBanner button {
+  height: 100%;
+}
+
+.ImageBanner ul {
+  height: 100%;
+  flex: 1;
+}
+
+.ImageBanner li {
+  display: inline-block;
+  width: 20%;
+  height: 100%;
+}
+
+.ImageBanner img {
+  padding: 0 2px;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
 .SearchResult {
   position: relative;
   margin-top: 10px;
