@@ -2,6 +2,15 @@
 
 프로그래머스 과제관 [고양이 사진 검색 사이트](https://school.programmers.co.kr/skill_check_assignments/4) 구현 레포지토리 입니다.
 
+## 실행 방법
+
+본 레포지토리를 클론 받은 뒤 터미널에서 아래의 명령어를 실행합니다.
+
+```shell
+npm install
+npm start
+```
+
 ## 요구사항
 
 ### HTML, CSS 관련
@@ -45,9 +54,9 @@
 
 ### 코드 구조 관련
 - [x] ES6 module 형태로 코드를 변경합니다. <br />
-      webpack , parcel 과 같은 번들러를 사용하지 말아주세요.
+      webpack, parcel 과 같은 번들러를 사용하지 말아주세요.
 - [x] 해당 코드 실행을 위해서는 http-server 모듈을(로컬 서버를 띄우는 다른 모듈도 사용 가능) 통해 index.html 을 띄워야 합니다.
-- [x] API fetch 코드를 async , await 문을 이용하여 수정해주세요. 해당 코드들은 에러가 났을 경우를 대비해서 적절히 처리가 되어있어야 합니다.
+- [x] API fetch 코드를 async, await 문을 이용하여 수정해주세요. 해당 코드들은 에러가 났을 경우를 대비해서 적절히 처리가 되어있어야 합니다.
 - [x] 필수 API 의 status code 에 따라 에러 메시지를 분리하여 작성해야 합니다.
 - [x] SearchResult 에 각 아이템을 클릭하는 이벤트를 Event Delegation 기법을 이용해 수정해주세요.
 - [x] 컴포넌트 내부의 함수들이나 Util 함수들을 작게 잘 나누어주세요.
